@@ -1,3 +1,4 @@
+---
 - hosts: webservers
   become: yes
   tasks:
@@ -31,12 +32,20 @@
         state: present
 
     - name: Install Docker Compose
+      become: yes
       get_url:
-        url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
+        url: "https://github.com/docker/compose/releases/download/v2.29.1/docker-compose-linux-x86_64"
         dest: /usr/local/bin/docker-compose
         mode: '0755'
-      vars:
-        docker_compose_version: 1.29.2  # Update to the latest stable version
+
+    - name: Verify Docker Compose installation
+      command: docker-compose --version
+      register: compose_version
+      changed_when: false
+
+    - name: Print Docker Compose version
+      debug:
+        msg: "Docker Compose version: {{ compose_version.stdout }}"
 
     - name: Pull the latest version of the application
       git:
@@ -56,4 +65,4 @@
     - name: Run migrate
       command: docker-compose exec djangoapp python manage.py migrate
       args:
-       chdir: /var/www/djangoProject
+        chdir: /var/www/djangoProject

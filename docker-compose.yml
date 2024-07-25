@@ -16,6 +16,9 @@ services:
       - PG_HOST=db
     depends_on:
       - db
+    volumes:
+      - .:/code
+
   db:
     container_name: db
     image: postgres:13
@@ -29,7 +32,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./database/dump.sql:/docker-entrypoint-initdb.d/dump.sql
       - ./database/pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
-
 
   adminer:
     image: adminer
