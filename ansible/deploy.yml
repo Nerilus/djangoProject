@@ -1,16 +1,39 @@
 - hosts: webservers
   become: yes
   tasks:
-    - name: Ensure Docker is installed
+    - name: Update apt cache
       apt:
-        name: docker.io
-        state: present
         update_cache: yes
 
-    - name: Ensure Docker Compose is installed
+    - name: Install dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg-agent
+          - software-properties-common
+        state: present
+
+    - name: Add Docker’s official GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Set up the Docker repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+
+    - name: Install Docker Compose
       get_url:
         url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)
-        dest: /usr/local/bin/docker compose
+        dest: /usr/local/bin/docker-compose
         mode: '0755'
 
     - name: Pull the latest version of the application
@@ -19,6 +42,6 @@
         dest: /var/www/djangoProject
 
     - name: Build and run the containers
-      command: docker compose up -d
+      command: docker-compose up -d
       args:
         chdir: /var/www/djangoProject
