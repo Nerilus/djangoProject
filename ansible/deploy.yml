@@ -47,3 +47,13 @@
       command: docker-compose up -d
       args:
         chdir: /var/www/djangoProject
+
+    - name: Run makemigrations
+      command: docker-compose exec djangoapp python manage.py makemigrations
+      args:
+        chdir: /var/www/djangoProject
+
+    - name: Run migrate
+      command: docker-compose exec djangoapp python manage.py migrate
+      args:
+       chdir: /var/www/djangoProject
