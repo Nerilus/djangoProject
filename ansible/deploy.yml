@@ -1,0 +1,25 @@
+- hosts: webservers
+  become: yes
+  tasks:
+    - name: Ensure Docker is installed
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker Compose is installed
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)
+        dest: /usr/local/bin/docker-compose
+        mode: '0755'
+
+    - name: Pull the latest version of the application
+      git:
+        repo: https://github.com/Nerilus/djangoProject.git
+        dest: /path/to/your/app
+        version: main
+
+    - name: Build and run the containers
+      command: docker compose up -d
+      args:
+        chdir: /path/to/your/app
