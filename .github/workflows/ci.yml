@@ -97,5 +97,11 @@ jobs:
         mkdir -p ~/.ssh
         ssh-keyscan -H 62.72.16.216 >> ~/.ssh/known_hosts
 
+    - name: Check directory contents
+      run: ls -R
+
+    - name: Install Ansible
+      run: sudo apt-get install -y ansible
+
     - name: Deploy with Ansible
       run: ansible-playbook -i hosts.ini deploy.yml
