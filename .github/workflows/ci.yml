@@ -45,8 +45,8 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        docker compose build
-        docker compose push
+        docker-compose build
+        docker-compose push
 
   test:
     runs-on: ubuntu-latest
@@ -91,6 +91,11 @@ jobs:
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Add known hosts
+      run: |
+        mkdir -p ~/.ssh
+        ssh-keyscan -H 62.72.16.216 >> ~/.ssh/known_hosts
 
     - name: Deploy with Ansible
       run: ansible-playbook -i hosts.ini deploy.yml
