@@ -26,6 +26,8 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=django_db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=password
     ports:
       - "3306:3306"
     volumes:
