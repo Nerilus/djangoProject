@@ -9,27 +9,30 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - PG_USER=postgres
-      - PG_PASSWORD=postgres
-      - PG_DB=postgres
-      - PG_PORT=5432
-      - PG_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=password
+      - DB_NAME=postgres
+      - DB_PORT=3306
+      - DB_HOST=db
     depends_on:
       - db
     volumes:
       - .:/code
+    networks:
+      - app-network
 
   db:
-    container_name: db
-    image: postgres:13
+    image: mariadb:latest
+    restart: always
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=postgres
     ports:
-      - "5432:5432"
+      - "3306:3306"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - app-network
 
   adminer:
     image: adminer
@@ -38,6 +41,12 @@ services:
       - "8282:8080"
     depends_on:
       - db
+    networks:
+      - app-network
 
 volumes:
-  postgres_data:
+  mariadb_data:
+
+networks:
+  app-network:
+    driver: bridge

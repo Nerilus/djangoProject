@@ -85,12 +85,12 @@ WSGI_APPLICATION = 'djangoProject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DB_DRIVER','django.db.backends.postgresql'),
-        'USER': os.environ.get('PG_USER','postgres'),
-        'PASSWORD': os.environ.get('PG_PASSWORD','postgres'),
-        'NAME': os.environ.get('PG_DB','postgres'),
-        'PORT': os.environ.get('PG_PORT','5432'),
-        'HOST': os.environ.get('PG_HOST','db'), # uses the container if set, otherwise it runs locally
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'postgres',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': 'db',
+        'PORT': '3306',
     }
 }
 
