@@ -2,7 +2,7 @@
 
 # Attendre que la base de données soit prête
 echo "Waiting for database..."
-while ! nc -z mydb 3306; do
+while ! nc -z mydb 3307; do
   sleep 0.1
 done
 
