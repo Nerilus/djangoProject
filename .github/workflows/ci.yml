@@ -13,14 +13,13 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      postgres:
-        image: postgres:13
+      mariadb:
+        image: mariadb:latest
         env:
-          POSTGRES_DB: postgres
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: django_db
         ports:
-          - 5432:5432
+          - 3306:3306
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -28,7 +27,7 @@ jobs:
           --health-retries 5
 
     env:
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+      DATABASE_URL: mysql://root:password@localhost:3306/django_db
 
     steps:
     - name: Checkout code
