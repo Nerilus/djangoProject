@@ -12,15 +12,15 @@ services:
       - DB_PASSWORD=password
       - DB_NAME=django_db
       - DB_PORT=3306
-      - DB_HOST=mydb
+      - DB_HOST=db
     depends_on:
-      - mydb
+      - db
     volumes:
       - .:/code
     networks:
       - app-network
 
-  mydb:
+  db:
     image: mariadb:latest
     restart: always
     environment:
@@ -29,7 +29,7 @@ services:
       - MYSQL_USER=root
       - MYSQL_PASSWORD=password
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
     networks:
@@ -41,7 +41,7 @@ services:
     ports:
       - "8282:8080"
     depends_on:
-      - mydb
+      - db
     networks:
       - app-network
 

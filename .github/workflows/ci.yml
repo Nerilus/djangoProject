@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      mydb:
+      db:
         image: mariadb:latest
         env:
           MYSQL_ROOT_PASSWORD: password
@@ -21,10 +21,10 @@ jobs:
           MYSQL_USER: root
           MYSQL_PASSWORD: password
         ports:
-          - 3307:3306
+          - 3306:3306
 
     env:
-      DATABASE_URL: mysql://root:password@mydb:3307/django_db
+      DATABASE_URL: mysql://root:password@db:3306/django_db
 
     steps:
     - name: Checkout code
