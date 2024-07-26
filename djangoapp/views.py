@@ -42,6 +42,7 @@ class RegisterView(generics.CreateAPIView):
             secure=True,
             samesite='None'
         )
+
         return response
 # CRUD Views for Content
 @api_view(['GET'])
